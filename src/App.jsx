@@ -1,34 +1,34 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { Layout } from 'antd'
+import { Route, Routes } from 'react-router-dom'
+
+import Navbar from './components/Navbar'
+
+import SignUpPage from './pages/Signup'
+import LoginPage from './pages/Login'
+import HomePage from './pages/Home'
+
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+const { Footer, Content } = Layout;
+
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <Layout>
+      <Navbar />
+      <Content style={{ padding: '16px 24px', height: 'calc(100vh - 128px)' }}>
+        <Routes>
+          <Route  path="/" element={<HomePage />} />
+          <Route path="/sign-up" element={<SignUpPage/>} />
+          <Route path="/login" element={<LoginPage/>} />
+          
+          <Route path="*" element={<h3>404 - Not Found</h3>} />
+        </Routes>
+      </Content>
+      <Footer style={{ textAlign: 'center' }}>
+        TuttiCake ©{new Date().getFullYear()} Created Burak & Ensha
+      </Footer>
+    </Layout>
   )
 }
 

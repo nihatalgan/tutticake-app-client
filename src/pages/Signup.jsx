@@ -1,0 +1,87 @@
+import { Button, Card, Col, Form, Input, Row } from "antd";
+import { Link, useNavigate } from "react-router-dom";
+
+import authService from "../services/auth.service";
+
+function SignUpPage() {
+
+  const navigate = useNavigate();
+
+  const onFinish = (values) => {
+    const {name, email, password} = values;
+    authService.signup({ name, email, password})
+    .then((response) => {
+      navigate('/login');
+    })
+    .catch(console.error)
+  };
+  
+  const onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo);
+  };
+
+  return(
+    <Row justify="center" align='middle'>
+      <Col>
+        <Card title="Please sign-up to create account">
+          <Form
+            name="basic"
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+            autoComplete="off"
+            layout="vertical"
+          >
+            <Form.Item
+              label="Name"
+              name="name"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input your name!',
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+
+            <Form.Item
+              label="Email"
+              name="email"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input your email!',
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+
+            <Form.Item
+              label="Password"
+              name="password"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input your password!',
+                },
+              ]}
+            >
+              <Input.Password />
+            </Form.Item>
+            <div>
+              <p>If you already have an account, you can login <Link to={'/login'}>here</Link></p>
+            </div>
+            <Form.Item>
+              <Button type="primary" htmlType="submit">
+                Sign Up
+              </Button>
+            </Form.Item>
+          </Form>
+        </Card>
+      </Col>
+    </Row>
+  )
+}
+
+export default SignUpPage;
