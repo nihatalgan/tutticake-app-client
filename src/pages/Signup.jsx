@@ -1,9 +1,11 @@
 import { Button, Card, Col, Form, Input, Row } from "antd";
 import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 import authService from "../services/auth.service";
 
 function SignUpPage() {
+  const [errorMessage, setErrorMessage] = useState(undefined);
 
   const navigate = useNavigate();
 
@@ -13,11 +15,10 @@ function SignUpPage() {
     .then((response) => {
       navigate('/login');
     })
-    .catch(console.error)
-  };
-  
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
+    .catch((error) => {
+      const errorDescription = error.response.data.message;
+      setErrorMessage(errorDescription);
+    })    
   };
 
   return(
@@ -27,7 +28,6 @@ function SignUpPage() {
           <Form
             name="basic"
             onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
             autoComplete="off"
             layout="vertical"
           >
@@ -78,6 +78,7 @@ function SignUpPage() {
               </Button>
             </Form.Item>
           </Form>
+        { errorMessage  && <p style={{color: 'red', textAlign: "center"}}>{errorMessage}</p>}
         </Card>
       </Col>
     </Row>

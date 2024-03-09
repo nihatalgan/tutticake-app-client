@@ -1,12 +1,13 @@
 import { useContext } from "react";
 import { Button, Card, Col, Form, Input, Row } from "antd";
 import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 import authService from "../services/auth.service";
 import { AuthContext } from "../context/auth.context";
 
 function LoginPage() {
-
+  const [errorMessage, setErrorMessage] = useState(undefined);
   const navigate = useNavigate();
   const { storeToken, authenticateUser } = useContext(AuthContext);
 
@@ -18,13 +19,13 @@ function LoginPage() {
         authenticateUser();    
         navigate('/');                                 
     })
-    .catch(console.error)
+    .catch((error) => {
+      const errorDescription = error.response.data.message;
+      setErrorMessage(errorDescription);
+    })
+    
   };
   
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-  };
-
   return(
     <Row justify="center" align='middle'>
       <Col>
@@ -32,7 +33,6 @@ function LoginPage() {
           <Form
             name="basic"
             onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
             autoComplete="off"
             layout="vertical"
           >
@@ -70,6 +70,7 @@ function LoginPage() {
               </Button>
             </Form.Item>
           </Form>
+          { errorMessage  && <p style={{color: 'red', textAlign: "center"}}>{errorMessage}</p>}
         </Card>
       </Col>
     </Row>
