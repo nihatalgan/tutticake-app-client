@@ -9,6 +9,8 @@ import HomePage from "./pages/Home";
 
 import CakeListPage from "./pages/CakeListPage";
 import CakeDetailsPage from "./pages/CakeDetailsPage";
+import AddCake from "./pages/AddCake";
+import EditCakePage from "./pages/EditCakePage";
 
 import "./App.css";
 
@@ -23,7 +25,9 @@ function App() {
           <Route path="/" element={<HomePage />} />
 
           <Route path="/cakes" element={<CakeListPage />} />
+          <Route path="/cakes/create" element={<AddCake />} />
           <Route path="/cakes/:cakeId" element={<CakeDetailsPage />} />
+          <Route path="/cakes/edit/:cakeId" element={<EditCakePage />} />
 
           <Route path="/sign-up" element={<SignUpPage />} />
           <Route path="/login" element={<LoginPage />} />
