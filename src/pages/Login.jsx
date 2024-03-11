@@ -17,7 +17,7 @@ function LoginPage() {
     .then((response) => {
         storeToken(response.data.authToken);
         authenticateUser();    
-        navigate('/');                                 
+        navigate('/Cakes');                                 
     })
     .catch((error) => {
       const errorDescription = error.response.data.message;
