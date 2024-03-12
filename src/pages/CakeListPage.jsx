@@ -22,9 +22,9 @@ function CakeListPage() {
 
   return (
     <div>
-      {/* <AddProject refreshProjects={getAllProjects} /> */}
-
-      {/* Below: UPDATE */}
+      <Link to="/cakes/create">
+        <button>Create a cake</button>
+      </Link>
       {cakes.map((cake) => (
         <CakeCard key={cake._id} {...cake} />
       ))}
