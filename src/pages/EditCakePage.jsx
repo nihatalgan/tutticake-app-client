@@ -1,10 +1,12 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
-const API_URL = "http://localhost:3000";
+import cakeServices from "../services/cakes.service";
+import { AuthContext } from "../context/auth.context";
 
 function EditCakePage(props) {
+  const { user } = useContext(AuthContext);
+
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
 
@@ -12,12 +14,11 @@ function EditCakePage(props) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios
-      .get(`${API_URL}/cakes/${cakeId}`)
+    cakeServices.getCakeDetails(cakeId)
       .then((response) => {
-        const oneCake = response.data;
-        setName(oneCake.name);
-        setDescription(oneCake.description);
+        const cakeData = response.data;
+        setName(cakeData.name);
+        setDescription(cakeData.description);
       })
       .catch((error) => console.log(error));
   }, [cakeId]);
@@ -26,16 +27,14 @@ function EditCakePage(props) {
     e.preventDefault();
     const requestBody = { name, description };
 
-    axios
-      .put(`${API_URL}/cakes/edit/${cakeId}`, requestBody)
+    cakeServices.editCakeDetails(cakeId, requestBody)
       .then((response) => {
         navigate(`/cakes/${cakeId}`);
       });
   };
 
   const deleteCake = () => {
-    axios
-      .delete(`${API_URL}/cakes/${cakeId}`)
+    cakeServices.deleteCake(cakeId)
       .then(() => {
         navigate("/cakes");
       })

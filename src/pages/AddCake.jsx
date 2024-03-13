@@ -1,10 +1,10 @@
 import { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const API_URL = "http://localhost:3000";
+import cakeServices from "../services/cakes.service";
 
 function AddCake() {
+
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
 
@@ -15,8 +15,7 @@ function AddCake() {
 
     const newCake = { name, description };
 
-    axios
-      .post(`${API_URL}/cakes/create`, newCake)
+    cakeServices.addCake(newCake)
       .then((response) => {
         // Reset the state
         setName("");

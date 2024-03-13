@@ -1,18 +1,18 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
-import { Link, useParams } from "react-router-dom";
-// import AddTask from "../components/AddTask";
-// import TaskCard from "../components/TaskCard";
+import { useState, useEffect, useContext } from "react";
 
-const API_URL = "http://localhost:3000";
+import { Link, useParams } from "react-router-dom";
+
+import cakeServices from "../services/cakes.service";
+import { AuthContext } from "../context/auth.context";
 
 function CakeDetailsPage(props) {
+  const { user } = useContext(AuthContext);
+
   const [cake, setCake] = useState(null);
   const { cakeId } = useParams();
 
   const getCake = () => {
-    axios
-      .get(`${API_URL}/cakes/${cakeId}`)
+    cakeServices.getCakeDetails(cakeId)
       .then((response) => {
         const oneCake = response.data;
         setCake(oneCake);
@@ -32,6 +32,8 @@ function CakeDetailsPage(props) {
           <img src={cake.imageUrl}></img>
           <p style={{ maxWidth: "400px" }}>{cake.description} </p>
           <p>Price: {cake.price} </p>
+          <p>Created by: {cake.vendor && cake.vendor.name} </p>
+        
         </>
       )}
 
@@ -41,10 +43,13 @@ function CakeDetailsPage(props) {
       <Link to="/cakes">
         <button>Back to the list of cakes</button>
       </Link>
-
-      <Link to={`/cakes/edit/${cakeId}`}>
-        <button>Edit Cake</button>
-      </Link>
+      {
+        cake && cake.vendor && user && cake.vendor._id === user._id && (
+          <Link to={`/cakes/edit/${cakeId}`}>
+            <button>Edit Cake</button>
+          </Link>
+        )
+      }
     </div>
   );
 }
