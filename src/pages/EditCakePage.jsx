@@ -14,7 +14,8 @@ function EditCakePage(props) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    cakeServices.getCakeDetails(cakeId)
+    cakeServices
+      .getCakeDetails(cakeId)
       .then((response) => {
         const cakeData = response.data;
         setName(cakeData.name);
@@ -27,14 +28,14 @@ function EditCakePage(props) {
     e.preventDefault();
     const requestBody = { name, description };
 
-    cakeServices.editCakeDetails(cakeId, requestBody)
-      .then((response) => {
-        navigate(`/cakes/${cakeId}`);
-      });
+    cakeServices.editCakeDetails(cakeId, requestBody).then((response) => {
+      navigate(`/cakes/${cakeId}`);
+    });
   };
 
   const deleteCake = () => {
-    cakeServices.deleteCake(cakeId)
+    cakeServices
+      .deleteCake(cakeId)
       .then(() => {
         navigate("/cakes");
       })
@@ -64,7 +65,6 @@ function EditCakePage(props) {
         <button type="submit">Update Cake</button>
       </form>
 
-      {/*     ADD     */}
       <button onClick={deleteCake}>Delete Cake</button>
     </div>
   );

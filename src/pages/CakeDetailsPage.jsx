@@ -12,7 +12,8 @@ function CakeDetailsPage(props) {
   const { cakeId } = useParams();
 
   const getCake = () => {
-    cakeServices.getCakeDetails(cakeId)
+    cakeServices
+      .getCakeDetails(cakeId)
       .then((response) => {
         const oneCake = response.data;
         setCake(oneCake);
@@ -29,11 +30,10 @@ function CakeDetailsPage(props) {
       {cake && (
         <>
           <h1>{cake.name}</h1>
-          <img src={cake.imageUrl}></img>
-          <p style={{ maxWidth: "400px" }}>{cake.description} </p>
+          <img style={{ maxWidth: "800px" }} src={cake.imageUrl}></img>
+          <p>{cake.description} </p>
           <p>Price: {cake.price} </p>
           <p>Created by: {cake.vendor && cake.vendor.name} </p>
-        
         </>
       )}
 
@@ -43,13 +43,11 @@ function CakeDetailsPage(props) {
       <Link to="/cakes">
         <button>Back to the list of cakes</button>
       </Link>
-      {
-        cake && cake.vendor && user && cake.vendor._id === user._id && (
-          <Link to={`/cakes/edit/${cakeId}`}>
-            <button>Edit Cake</button>
-          </Link>
-        )
-      }
+      {cake && cake.vendor && user && cake.vendor._id === user._id && (
+        <Link to={`/cakes/edit/${cakeId}`}>
+          <button>Edit Cake</button>
+        </Link>
+      )}
     </div>
   );
 }
