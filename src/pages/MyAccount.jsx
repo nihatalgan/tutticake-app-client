@@ -52,7 +52,7 @@ function MyAccountPage() {
       <Col>
         <Card title="My Account">
           <Form
-            name="basic"
+            name="account"
             onFinish={onFinish}
             autoComplete="off"
             layout="vertical"
@@ -70,21 +70,7 @@ function MyAccountPage() {
             >
               <Input />
             </Form.Item>
-
-            <Form.Item
-              label="Email"
-              name="email"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input your email!',
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-
-            <Form.Item
+              <Form.Item
               label="Phone Number"
               name="phoneNumber"
             >

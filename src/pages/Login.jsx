@@ -30,7 +30,7 @@ function LoginPage() {
       <Col>
         <Card title="Please login to continue">
           <Form
-            name="basic"
+            name="login"
             onFinish={onFinish}
             autoComplete="off"
             layout="vertical"
