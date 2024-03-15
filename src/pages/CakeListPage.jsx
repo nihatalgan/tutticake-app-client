@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 // import AddProject from "../components/AddProject";
 import CakeCard from "../components/CakeCard";
 import { AuthContext } from "../context/auth.context";
+import { Card, Col, Row } from 'antd';
 
 const API_URL = "http://localhost:3000";
 
@@ -24,13 +25,18 @@ function CakeListPage() {
 
   return (
     <div>
-      {isLoggedIn?( <Link to="/cakes/create">
-        <button>Create a cake</button>
-      </Link>):(<p>Please signin to sell or buy cakes.</p>)}
-      
-      {cakes.map((cake) => (
-        <CakeCard key={cake._id} {...cake} />
-      ))}
+      <div className="cake-listing-topbar">
+        {isLoggedIn?( <Link to="/cakes/create">
+          <button>Create a cake</button>
+        </Link>):(<p>Please signin to sell or buy cakes.</p>)}
+      </div>
+      <Row gutter={[16, 16]}>
+        {cakes.map((cake) => (
+          <Col span={6}>
+            <CakeCard key={cake._id} {...cake} />
+          </Col>
+        ))}
+      </Row>
     </div>
   );
 }

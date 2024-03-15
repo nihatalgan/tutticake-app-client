@@ -26,7 +26,7 @@ function SignUpPage() {
       <Col>
         <Card title="Please sign-up to create account">
           <Form
-            name="basic"
+            name="signup"
             onFinish={onFinish}
             autoComplete="off"
             layout="vertical"
