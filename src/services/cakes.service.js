@@ -1,17 +1,17 @@
-import axios from 'axios';
+import axios from "axios";
 
 class CakesService {
   constructor() {
     // Create a new instance of axios with a custom configuration
     this.api = axios.create({
-      baseURL: import.meta.env.VITE_SERVER_URL
+      baseURL: import.meta.env.VITE_SERVER_URL,
       // We set our API's base URL so that all requests use the same base URL
     });
 
-      // Automatically set JWT token in the headers for every request
-    this.api.interceptors.request.use(config => {
+    // Automatically set JWT token in the headers for every request
+    this.api.interceptors.request.use((config) => {
       // Retrieve the JWT token from the local storage
-      const storedToken = localStorage.getItem('authToken');
+      const storedToken = localStorage.getItem("authToken");
 
       if (storedToken) {
         config.headers = { Authorization: `Bearer ${storedToken}` };
@@ -21,8 +21,13 @@ class CakesService {
     });
   }
 
-  addCake = ({ name, description }) => {
-    return this.api.post('/cakes', { name, description });
+  addCake = ({ name, description, price, preperationTime }) => {
+    return this.api.post("/cakes", {
+      name,
+      description,
+      price,
+      preperationTime,
+    });
   };
 
   getCakeDetails = (cakeId) => {

@@ -84,7 +84,18 @@ function CakeDetailsPage(props) {
               margin: 0,
             }}
           >
-            {cake.price}
+            {cake.price} €
+          </Typography.Title>
+        </Card>
+        <Card>
+          <Typography.Text>Preperation time:</Typography.Text>
+          <Typography.Title
+            level={3}
+            style={{
+              margin: 0,
+            }}
+          >
+            {cake.preperationTime} min
           </Typography.Title>
         </Card>
       </Col>
