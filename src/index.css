@@ -4,7 +4,6 @@
   box-sizing: border-box;
 }
 
-
 /* styling custom scrollbar - https://stackoverflow.com/questions/73055069/how-to-design-overflow-scroll-bar-specific */
 *::-webkit-scrollbar {
   width: 6px;
@@ -22,4 +21,30 @@
 
 body {
   font-size: 16px;
+}
+
+/* from student portal for theme context*/
+.light {
+  background-color: #efeded;
+}
+.dark {
+  background-color: #18191a;
+}
+.Navbar.light {
+  background-color: #ffffff;
+}
+.Navbar.dark {
+  background-color: #252526;
+}
+.light a,
+.light p,
+.light h1,
+.light h3 {
+  color: #000000;
+}
+.dark a,
+.dark p,
+.dark h1,
+.dark h3 {
+  color: #ffffff;
 }
