@@ -1,12 +1,11 @@
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-// import AddProject from "../components/AddProject";
 import CakeCard from "../components/CakeCard";
 import { AuthContext } from "../context/auth.context";
-import { Card, Col, Row } from 'antd';
+import { Card, Col, Row } from "antd";
 
-const API_URL = "http://localhost:3000";
+const API_URL = import.meta.env.VITE_SERVER_URL || "http://localhost:3000";
 
 function CakeListPage() {
   const [cakes, setCakes] = useState([]);
@@ -26,9 +25,13 @@ function CakeListPage() {
   return (
     <div>
       <div className="cake-listing-topbar">
-        {isLoggedIn?( <Link to="/cakes/create">
-          <button>Create a cake</button>
-        </Link>):(<p>Please signin to sell or buy cakes.</p>)}
+        {isLoggedIn ? (
+          <Link to="/cakes/create">
+            <button>Create a cake</button>
+          </Link>
+        ) : (
+          <p>Please signin to sell or buy cakes.</p>
+        )}
       </div>
       <Row gutter={[16, 16]}>
         {cakes.map((cake) => (
