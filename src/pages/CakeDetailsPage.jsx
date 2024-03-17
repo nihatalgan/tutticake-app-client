@@ -95,7 +95,7 @@ function CakeDetailsPage(props) {
               margin: 0,
             }}
           >
-            {cake.preperationTime} min
+            {cake.preperationTime} hrs.
           </Typography.Title>
         </Card>
       </Col>

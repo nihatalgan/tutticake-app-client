@@ -1,14 +1,21 @@
 import { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { Button, Card, Col, Form, Input, Row, Spin, Upload } from "antd";
+import { UploadOutlined } from "@ant-design/icons"
 
 import cakeServices from "../services/cakes.service";
-import { AuthContext } from "../context/auth.context";
 
-function EditCakePage(props) {
-  const { user } = useContext(AuthContext);
+const normFile = (e) => {
+  if (Array.isArray(e)) {
+    return e;
+  }
+  return e?.fileList;
+};
 
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
+function EditCakePage() {
+  const [errorMessage, setErrorMessage] = useState(undefined);
+  const [loading, setLoading] = useState(true);
+  const [cakeData, setCakeData] = useState({});
 
   const { cakeId } = useParams();
   const navigate = useNavigate();
@@ -17,20 +24,24 @@ function EditCakePage(props) {
     cakeServices
       .getCakeDetails(cakeId)
       .then((response) => {
-        const cakeData = response.data;
-        setName(cakeData.name);
-        setDescription(cakeData.description);
+        setCakeData(response.data);
+        setLoading(false);
       })
       .catch((error) => console.log(error));
   }, [cakeId]);
 
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    const requestBody = { name, description };
-
-    cakeServices.editCakeDetails(cakeId, requestBody).then((response) => {
-      navigate(`/cakes/${cakeId}`);
-    });
+  const onFinish = (values) => {
+    if (values.imageObj && values.imageObj[0]) {
+      values.imageUrl = values.imageObj[0].response.image;
+    }
+    cakeServices.editCakeDetails(cakeId, values)
+      .then((response) => {
+        navigate(`/cakes/${cakeId}`);
+      })
+      .catch((error) => {
+        const errorDescription = error.response.data.message;
+        setErrorMessage(errorDescription);
+      });
   };
 
   const deleteCake = () => {
@@ -39,34 +50,110 @@ function EditCakePage(props) {
       .then(() => {
         navigate("/cakes");
       })
-      .catch((err) => console.log(err));
+      .catch((error) => {
+        const errorDescription = error.response.data.message;
+        setErrorMessage(errorDescription);
+        setLoading(false);
+      });
+  };
+  
+  const uploadProps = {
+    name: 'image',
+    listType:"picture",
+    multiple: false,
+    maxCount: 1,
+    action: `${import.meta.env.VITE_SERVER_URL}/upload`,
   };
 
+  if (loading) {
+    return (
+      <Row justify="center" align='middle' style={{ height: '100%' }}>
+        <Col>
+          <Spin size="large" />
+        </Col>
+      </Row>
+    )
+  }
+
   return (
-    <div>
-      <h3>Edit the Cake</h3>
+    <Row justify="center" align='middle'>
+      <Col span={16}>
+        <Card title="Edit a cake">
+          <Form
+            name="edit-cake"
+            onFinish={onFinish}
+            autoComplete="off"
+            layout="vertical"
+            initialValues={cakeData}
+          >
+            <Form.Item label="Upload Cake Picture" name="imageObj"  valuePropName="fileList" getValueFromEvent={normFile}>
+              <Upload {...uploadProps}>
+                <Button icon={<UploadOutlined />}>Click to Update</Button>
+              </Upload>
+            </Form.Item>
+            <Form.Item
+              label="Cake Name"
+              name="name"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input cake name!',
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
 
-      <form onSubmit={handleFormSubmit}>
-        <label>Name:</label>
-        <input
-          type="text"
-          name="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
+            <Form.Item
+              label="Cake Description"
+              name="description"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input cake description!',
+                },
+              ]}
+            >
+              <Input.TextArea />
+            </Form.Item>
 
-        <label>Description:</label>
-        <textarea
-          name="description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-
-        <button type="submit">Update Cake</button>
-      </form>
-
-      <button onClick={deleteCake}>Delete Cake</button>
-    </div>
+            <Form.Item
+              label="Cake Price"
+              name="price"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input cake price!',
+                },
+              ]}
+            >
+              <Input type="number" />
+            </Form.Item>
+            <Form.Item
+              label="Cake Preparation Time"
+              name="preperationTime"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input cake preperation Time!',
+                },
+              ]}
+            >
+              <Input type="number" />
+            </Form.Item>
+            <Form.Item>
+              <Button type="primary" htmlType="submit">
+                Save Changes
+              </Button>
+              <Button type="danger" onClick={deleteCake}>
+                Delete Cake
+              </Button>
+            </Form.Item>
+          </Form>
+          { errorMessage  && <p style={{color: 'red', textAlign: "center"}}>{errorMessage}</p>}
+        </Card>
+      </Col>
+    </Row>
   );
 }
 
