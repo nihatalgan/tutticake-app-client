@@ -1,7 +1,16 @@
 import { useEffect, useState } from "react";
-import { Button, Card, Col, Form, Input, Row, notification } from "antd";
+import { Avatar, Button, Card, Col, Divider, Flex, Form, Image, Input, Row, Spin, Upload, notification } from "antd";
+import { UploadOutlined, UserOutlined } from "@ant-design/icons"
 
 import usersService from "../services/users.service";
+
+const normFile = (e) => {
+  if (Array.isArray(e)) {
+    return e;
+  }
+  return e?.fileList;
+};
+
 
 function MyAccountPage() {
 
@@ -25,31 +34,57 @@ function MyAccountPage() {
   }, [])
 
   const onFinish = (values) => {
-    const { name, email, phoneNumber, address } = values;
-    usersService.editUserDetails({ name, email, phoneNumber, address })
+    if (values.imageObj && values.imageObj[0]) {
+      values.imageUrl = values.imageObj[0].response.image;
+    }
+    usersService.editUserDetails(values)
     .then((response) => {
-      notify['success']({
-        message: 'Account Details Updated!',
-        description:
-          'Your account details has been updated successfully.',
-        duration: 2,
-      })
+      setLoading(true)
+      usersService.getUserDetails()
+        .then((response) => {
+          setFormInitialValues(response.data);
+          setLoading(false)
+          notify['success']({
+            message: 'Account Details Updated!',
+            description:
+              'Your account details has been updated successfully.',
+            duration: 2,
+          })
+        })
+        .catch(error => {
+          const errorDescription = error.response.data.message;
+          setErrorMessage(errorDescription);
+        })
     })
     .catch((error) => {
+      setLoading(false);
       const errorDescription = error.response.data.message;
       setErrorMessage(errorDescription);
     })    
   };
 
+  const uploadProps = {
+    name: 'image',
+    listType:"picture",
+    multiple: false,
+    maxCount: 1,
+    action: `${import.meta.env.VITE_SERVER_URL}/upload`,
+  };
+
   if (loading) {
     return (
-      <p>Loading...</p>
+      <Row justify="center" align='middle' style={{ height: '100%' }}>
+        <Col>
+          <Spin size="large" />
+        </Col>
+        {notifyHolder}
+      </Row>
     )
   }
 
   return (
     <Row justify="center" align='middle'>
-      <Col>
+      <Col span={8}>
         <Card title="My Account">
           <Form
             name="account"
@@ -58,6 +93,21 @@ function MyAccountPage() {
             layout="vertical"
             initialValues={formInitialValues}
           >
+            <Flex justify="space-between">
+              {
+                formInitialValues.imageUrl ? (
+                  <Image preview={false} style={{height: 96, width: 96, borderRadius: '50%'}} src={formInitialValues.imageUrl} />
+                ) : (
+                  <Avatar size={96} icon={<UserOutlined />} />
+                )
+              }
+              <Form.Item label="Upload a Picture" name="imageObj"  valuePropName="fileList" getValueFromEvent={normFile}>
+                <Upload {...uploadProps}>
+                  <Button icon={<UploadOutlined />}>Click to Update</Button>
+                </Upload>
+              </Form.Item>
+            </Flex>
+            <Divider />
             <Form.Item
               label="Name"
               name="name"
@@ -88,7 +138,7 @@ function MyAccountPage() {
               </Button>
             </Form.Item>
           </Form>
-        { errorMessage  && <p style={{color: 'red', textAlign: "center"}}>{errorMessage}</p>}
+          { errorMessage  && <p style={{color: 'red', textAlign: "center"}}>{errorMessage}</p>}
         </Card>
       </Col>
       {notifyHolder}
