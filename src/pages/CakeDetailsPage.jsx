@@ -7,6 +7,8 @@ import { AuthContext } from "../context/auth.context";
 import { Row, Col, Image, Typography, Card, Divider, Button } from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 
+const API_URL = "http://localhost:3000";
+
 function CakeDetailsPage(props) {
   const { user } = useContext(AuthContext);
 
@@ -19,6 +21,15 @@ function CakeDetailsPage(props) {
       .then((response) => {
         const oneCake = response.data;
         setCake(oneCake);
+      })
+      .catch((error) => console.log(error));
+  };
+
+  const addCakeToCard = () => {
+    axios
+      .post(`${API_URL}/order/addcake/${cakeId}`)
+      .then((response) => {
+        console.log(response);
       })
       .catch((error) => console.log(error));
   };
@@ -72,6 +83,13 @@ function CakeDetailsPage(props) {
                 <Button type="primary">Edit Cake</Button>
               </Link>
             )}
+          </Col>
+          <Col>
+            <Link to={`/cakes/edit/${cakeId}`}>
+              <Button type="primary" onClick={addCakeToCard}>
+                Add to Card
+              </Button>
+            </Link>
           </Col>
         </Row>
       </Col>
