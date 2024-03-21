@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Card, Col, Form, Input, Row, Upload } from "antd";
-import { UploadOutlined } from "@ant-design/icons"
+import { UploadOutlined } from "@ant-design/icons";
 
-import cakeServices from "../services/cakes.service";
+import cakeServices from "../../services/cakes.service";
 
 const normFile = (e) => {
   if (Array.isArray(e)) {
@@ -33,15 +33,15 @@ function AddCake() {
   };
 
   const uploadProps = {
-    name: 'image',
-    listType:"picture",
+    name: "image",
+    listType: "picture",
     multiple: false,
     maxCount: 1,
     action: `${import.meta.env.VITE_SERVER_URL}/upload`,
   };
 
   return (
-    <Row justify="center" align='middle'>
+    <Row justify="center" align="middle">
       <Col span={16}>
         <Card title="Please add cake details">
           <Form
@@ -50,7 +50,12 @@ function AddCake() {
             autoComplete="off"
             layout="vertical"
           >
-            <Form.Item label="Upload Cake Picture" name="imageObj" valuePropName="fileList" getValueFromEvent={normFile}>
+            <Form.Item
+              label="Upload Cake Picture"
+              name="imageObj"
+              valuePropName="fileList"
+              getValueFromEvent={normFile}
+            >
               <Upload {...uploadProps}>
                 <Button icon={<UploadOutlined />}>Click to Upload</Button>
               </Upload>
@@ -61,7 +66,7 @@ function AddCake() {
               rules={[
                 {
                   required: true,
-                  message: 'Please input cake name!',
+                  message: "Please input cake name!",
                 },
               ]}
             >
@@ -74,7 +79,7 @@ function AddCake() {
               rules={[
                 {
                   required: true,
-                  message: 'Please input cake description!',
+                  message: "Please input cake description!",
                 },
               ]}
             >
@@ -87,7 +92,7 @@ function AddCake() {
               rules={[
                 {
                   required: true,
-                  message: 'Please input cake price!',
+                  message: "Please input cake price!",
                 },
               ]}
             >
@@ -99,7 +104,7 @@ function AddCake() {
               rules={[
                 {
                   required: true,
-                  message: 'Please input cake preperation Time!',
+                  message: "Please input cake preperation Time!",
                 },
               ]}
             >
@@ -111,7 +116,9 @@ function AddCake() {
               </Button>
             </Form.Item>
           </Form>
-          { errorMessage  && <p style={{color: 'red', textAlign: "center"}}>{errorMessage}</p>}
+          {errorMessage && (
+            <p style={{ color: "red", textAlign: "center" }}>{errorMessage}</p>
+          )}
         </Card>
       </Col>
     </Row>

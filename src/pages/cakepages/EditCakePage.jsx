@@ -1,9 +1,9 @@
 import { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button, Card, Col, Form, Input, Row, Spin, Upload } from "antd";
-import { UploadOutlined } from "@ant-design/icons"
+import { UploadOutlined } from "@ant-design/icons";
 
-import cakeServices from "../services/cakes.service";
+import cakeServices from "../../services/cakes.service";
 
 const normFile = (e) => {
   if (Array.isArray(e)) {
@@ -34,7 +34,8 @@ function EditCakePage() {
     if (values.imageObj && values.imageObj[0]) {
       values.imageUrl = values.imageObj[0].response.image;
     }
-    cakeServices.editCakeDetails(cakeId, values)
+    cakeServices
+      .editCakeDetails(cakeId, values)
       .then((response) => {
         navigate(`/cakes/${cakeId}`);
       })
@@ -56,10 +57,10 @@ function EditCakePage() {
         setLoading(false);
       });
   };
-  
+
   const uploadProps = {
-    name: 'image',
-    listType:"picture",
+    name: "image",
+    listType: "picture",
     multiple: false,
     maxCount: 1,
     action: `${import.meta.env.VITE_SERVER_URL}/upload`,
@@ -67,16 +68,16 @@ function EditCakePage() {
 
   if (loading) {
     return (
-      <Row justify="center" align='middle' style={{ height: '100%' }}>
+      <Row justify="center" align="middle" style={{ height: "100%" }}>
         <Col>
           <Spin size="large" />
         </Col>
       </Row>
-    )
+    );
   }
 
   return (
-    <Row justify="center" align='middle'>
+    <Row justify="center" align="middle">
       <Col span={16}>
         <Card title="Edit a cake">
           <Form
@@ -86,7 +87,12 @@ function EditCakePage() {
             layout="vertical"
             initialValues={cakeData}
           >
-            <Form.Item label="Upload Cake Picture" name="imageObj"  valuePropName="fileList" getValueFromEvent={normFile}>
+            <Form.Item
+              label="Upload Cake Picture"
+              name="imageObj"
+              valuePropName="fileList"
+              getValueFromEvent={normFile}
+            >
               <Upload {...uploadProps}>
                 <Button icon={<UploadOutlined />}>Click to Update</Button>
               </Upload>
@@ -97,7 +103,7 @@ function EditCakePage() {
               rules={[
                 {
                   required: true,
-                  message: 'Please input cake name!',
+                  message: "Please input cake name!",
                 },
               ]}
             >
@@ -110,7 +116,7 @@ function EditCakePage() {
               rules={[
                 {
                   required: true,
-                  message: 'Please input cake description!',
+                  message: "Please input cake description!",
                 },
               ]}
             >
@@ -123,7 +129,7 @@ function EditCakePage() {
               rules={[
                 {
                   required: true,
-                  message: 'Please input cake price!',
+                  message: "Please input cake price!",
                 },
               ]}
             >
@@ -135,7 +141,7 @@ function EditCakePage() {
               rules={[
                 {
                   required: true,
-                  message: 'Please input cake preperation Time!',
+                  message: "Please input cake preperation Time!",
                 },
               ]}
             >
@@ -150,7 +156,9 @@ function EditCakePage() {
               </Button>
             </Form.Item>
           </Form>
-          { errorMessage  && <p style={{color: 'red', textAlign: "center"}}>{errorMessage}</p>}
+          {errorMessage && (
+            <p style={{ color: "red", textAlign: "center" }}>{errorMessage}</p>
+          )}
         </Card>
       </Col>
     </Row>

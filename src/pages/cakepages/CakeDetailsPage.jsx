@@ -2,10 +2,12 @@ import { useState, useEffect, useContext } from "react";
 
 import { Link, useParams } from "react-router-dom";
 
-import cakeServices from "../services/cakes.service";
-import { AuthContext } from "../context/auth.context";
+import cakeServices from "../../services/cakes.service";
+import orderServices from "../../services/order.service";
+import { AuthContext } from "../../context/auth.context";
 import { Row, Col, Image, Typography, Card, Divider, Button } from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
+import axios from "axios";
 
 const API_URL = "http://localhost:3000";
 
@@ -25,13 +27,23 @@ function CakeDetailsPage(props) {
       .catch((error) => console.log(error));
   };
 
-  const addCakeToCard = () => {
-    axios
-      .post(`${API_URL}/order/addcake/${cakeId}`)
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => console.log(error));
+  const addCakeToCart = () => {
+    const storedToken = localStorage.getItem("authToken");
+    console.log(storedToken);
+
+    // axios
+    //   .post(`${API_URL}/order/addcake/${cakeId}`, {
+    //     headers: { Authorization: `Bearer ${storedToken}` },
+    //   })
+    //   .then((response) => {
+    //     console.log(response);
+    //   })
+    //   .catch((error) => {
+    //     console.log("asd");
+    //     console.log(error);
+    //   });
+    orderServices.addCakeToCart(cakeId);
+    console.log("details->service done");
   };
 
   useEffect(() => {
@@ -41,7 +53,7 @@ function CakeDetailsPage(props) {
   return (
     <Row gutter={[24, 0]}>
       <Col span={16}>
-        <Image width={"100%"} src={cake.imageUrl} preview={false} />
+        <Image width={"60%"} src={cake.imageUrl} preview={false} />
         <Typography.Title
           level={1}
           style={{
@@ -85,8 +97,8 @@ function CakeDetailsPage(props) {
             )}
           </Col>
           <Col>
-            <Link to={`/cakes/edit/${cakeId}`}>
-              <Button type="primary" onClick={addCakeToCard}>
+            <Link to={"/cakes"}>
+              <Button type="primary" onClick={addCakeToCart}>
                 Add to Card
               </Button>
             </Link>

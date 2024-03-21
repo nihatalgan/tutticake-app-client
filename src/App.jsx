@@ -8,10 +8,13 @@ import LoginPage from "./pages/Login";
 import HomePage from "./pages/Home";
 import MyAccountPage from "./pages/MyAccount";
 
-import CakeListPage from "./pages/CakeListPage";
-import CakeDetailsPage from "./pages/CakeDetailsPage";
-import AddCake from "./pages/AddCake";
-import EditCakePage from "./pages/EditCakePage";
+import CakeListPage from "./pages/cakepages/CakeListPage";
+import CakeDetailsPage from "./pages/cakepages/CakeDetailsPage";
+import AddCake from "./pages/cakepages/AddCake";
+import EditCakePage from "./pages/cakepages/EditCakePage";
+
+import OrderDetailsPage from "./pages/orderpages/OrderDetailsPage";
+import OrderSuccesssPage from "./pages/orderpages/OrderSuccesssPage";
 
 import "./App.css";
 
@@ -40,6 +43,9 @@ function App() {
           <Route path="/cakes/create" element={<AddCake />} />
           <Route path="/cakes/:cakeId" element={<CakeDetailsPage />} />
           <Route path="/cakes/edit/:cakeId" element={<EditCakePage />} />
+
+          <Route path="/order/cart" element={<OrderDetailsPage />} />
+          <Route path="/order/success" element={<OrderSuccesssPage />} />
 
           <Route path="*" element={<h3>404 - Not Found</h3>} />
         </Routes>
