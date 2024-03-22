@@ -18,6 +18,8 @@ import { UploadOutlined, UserOutlined } from "@ant-design/icons";
 
 import usersService from "../services/users.service";
 
+import { Link } from "react-router-dom";
+
 const normFile = (e) => {
   if (Array.isArray(e)) {
     return e;
@@ -147,11 +149,26 @@ function MyAccountPage() {
             <Form.Item label="Address" name="address">
               <Input.TextArea />
             </Form.Item>
-            <Form.Item>
-              <Button type="primary" htmlType="submit">
-                Save Changes
-              </Button>
-            </Form.Item>
+            <Row gutter={[16, 0]}>
+              <Col>
+                <Form.Item>
+                  <Link>
+                    <Button type="primary" htmlType="submit">
+                      Save Changes
+                    </Button>
+                  </Link>
+                </Form.Item>
+              </Col>
+              <Col>
+                <Form.Item>
+                  <Link to="/order/list">
+                    <Button type="primary" htmlType="submit">
+                      My Previous Orders
+                    </Button>
+                  </Link>
+                </Form.Item>
+              </Col>
+            </Row>
           </Form>
           {errorMessage && (
             <p style={{ color: "red", textAlign: "center" }}>{errorMessage}</p>

@@ -28,8 +28,8 @@ function CakeDetailsPage(props) {
   };
 
   const addCakeToCart = () => {
-    const storedToken = localStorage.getItem("authToken");
-    console.log(storedToken);
+    // const storedToken = localStorage.getItem("authToken");
+    // console.log(storedToken);
 
     // axios
     //   .post(`${API_URL}/order/addcake/${cakeId}`, {

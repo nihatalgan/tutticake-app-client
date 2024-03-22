@@ -36,6 +36,11 @@ class OrderService {
     return this.api.put(`/order/${orderId}/close`);
   };
 
+  getPreviousOrders = () => {
+    console.log("service->get orders ");
+    return this.api.get(`/order/list`);
+  };
+
   //checkout
   //remove from cart
 

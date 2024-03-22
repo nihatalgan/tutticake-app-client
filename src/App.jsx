@@ -15,6 +15,7 @@ import EditCakePage from "./pages/cakepages/EditCakePage";
 
 import OrderDetailsPage from "./pages/orderpages/OrderDetailsPage";
 import OrderSuccesssPage from "./pages/orderpages/OrderSuccesssPage";
+import OrderListPage from "./pages/orderpages/OrderListPage";
 
 import "./App.css";
 
@@ -46,6 +47,7 @@ function App() {
 
           <Route path="/order/cart" element={<OrderDetailsPage />} />
           <Route path="/order/success" element={<OrderSuccesssPage />} />
+          <Route path="/order/list" element={<OrderListPage />} />
 
           <Route path="*" element={<h3>404 - Not Found</h3>} />
         </Routes>
