@@ -1,15 +1,16 @@
 import { Link } from "react-router-dom";
+import { Card, Typography } from 'antd';
+
 
 function CakeCard({ name, description, imageUrl, price, _id }) {
   return (
-    <div>
-      <Link to={`/cakes/${_id}`}>
-        <h3>{name}</h3>
-      </Link>
-      <img src={imageUrl}></img>
-      <p style={{ maxWidth: "400px" }}>{description} </p>
-      <p>Price: {price} </p>
-    </div>
+    <Link to={`/cakes/${_id}`}>
+      <Card bordered={false}>
+        <img style={{ width: 240, height: 260}}src={imageUrl} />
+        <Typography.Title level={3}>{name}</Typography.Title>
+        <Typography.Title level={5}>Price: {price}  €</Typography.Title>
+      </Card>    
+    </Link>
   );
 }
 

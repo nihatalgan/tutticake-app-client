@@ -1,9 +1,10 @@
 import { useContext } from "react";
 import { Button, Layout } from "antd";
 import { Link, useNavigate } from "react-router-dom";
+
 import { AuthContext } from "../context/auth.context";
+
 import Logo from "../assets/tutti-cake-logo.png";
-import { ThemeContext } from "./../context/theme.context";
 
 function Navbar() {
   const { Header } = Layout;
@@ -25,7 +26,7 @@ function Navbar() {
         borderBottom: "1px solid rgba(5, 5, 5, 0.06)",
       }}
     >
-      <nav className={"nav-container " + theme}>
+      <nav className="nav-container">
         <Link to="/" className="logo-container">
           <img src={Logo} alt="TuttiCake Logo" height={48} width={48} />
           TuttiCake

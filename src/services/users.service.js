@@ -25,8 +25,8 @@ class UsersService {
     return this.api.get('/users');
   };
 
-  editUserDetails = ({ name, email, phoneNumber, address }) => {
-    return this.api.put('/users', { name, email, phoneNumber, address });
+  editUserDetails = ({ name, email, phoneNumber, address, imageUrl }) => {
+    return this.api.put('/users', { name, email, phoneNumber, address, imageUrl });
   };
 
 }
