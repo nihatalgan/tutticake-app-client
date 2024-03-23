@@ -31,6 +31,10 @@ class OrderService {
   getCartDetails = () => {
     return this.api.get(`/order/cart`);
   };
+  // order details
+  getOrderDetails = (orderId) => {
+    return this.api.get(`/order/${orderId}`);
+  };
 
   closeOrder = (orderId, totalCost) => {
     return this.api.put(`/order/${orderId}/close`, { totalCost });
