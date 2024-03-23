@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-// import AddProject from "../components/AddProject";
+import cakeServices from "../../services/cakes.service";
 import CakeCard from "../../components/CakeCard";
 import { AuthContext } from "../../context/auth.context";
 import { Col, Row, Spin } from "antd";
@@ -14,8 +14,8 @@ function CakeListPage() {
   const [loading, setLoading] = useState(true);
 
   const getAllCakes = () => {
-    axios
-      .get(`${API_URL}/cakes`)
+    cakeServices
+      .getAllCakes()
       .then((response) => {
         setCakes(response.data);
         setLoading(false);

@@ -31,12 +31,25 @@ class CakesService {
     });
   };
 
+  getAllCakes = () => {
+    return this.api.get(`/cakes`);
+  };
+
   getCakeDetails = (cakeId) => {
     return this.api.get(`/cakes/${cakeId}`);
   };
 
-  editCakeDetails = (cakeId, { name, description, price, preperationTime, imageUrl }) => {
-    return this.api.put(`/cakes/${cakeId}`, { name, description, price, preperationTime, imageUrl });
+  editCakeDetails = (
+    cakeId,
+    { name, description, price, preperationTime, imageUrl }
+  ) => {
+    return this.api.put(`/cakes/${cakeId}`, {
+      name,
+      description,
+      price,
+      preperationTime,
+      imageUrl,
+    });
   };
 
   deleteCake = (cakeId) => {

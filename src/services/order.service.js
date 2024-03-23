@@ -36,47 +36,10 @@ class OrderService {
     return this.api.put(`/order/${orderId}/close`, { totalCost });
   };
 
-  // editCakeDetails = (
-  //   cakeId,
-  //   { name, description, price, preperationTime, imageUrl }
-  // ) => {
-  //   return this.api.put(`/cakes/${cakeId}`, {
-  //     name,
-  //     description,
-  //     price,
-  //     preperationTime,
-  //     imageUrl,
-  //   });
-  // };
-
   getPreviousOrders = () => {
     console.log("service->get orders ");
     return this.api.get(`/order/list`);
   };
-
-  //checkout
-  //remove from cart
-
-  //   getCakeDetails = (cakeId) => {
-  //     return this.api.get(`/cakes/${cakeId}`);
-  //   };
-
-  //   editCakeDetails = (
-  //     cakeId,
-  //     { name, description, price, preperationTime, imageUrl }
-  //   ) => {
-  //     return this.api.put(`/cakes/${cakeId}`, {
-  //       name,
-  //       description,
-  //       price,
-  //       preperationTime,
-  //       imageUrl,
-  //     });
-  //   };
-
-  //   deleteCake = (cakeId) => {
-  //     return this.api.delete(`/cakes/${cakeId}`);
-  //   };
 }
 
 // Create one instance object
