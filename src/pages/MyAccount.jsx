@@ -152,17 +152,15 @@ function MyAccountPage() {
             <Row gutter={[16, 0]}>
               <Col>
                 <Form.Item>
-                  <Link>
-                    <Button type="primary" htmlType="submit">
-                      Save Changes
-                    </Button>
-                  </Link>
+                  <Button type="primary" htmlType="submit">
+                    Save Changes
+                  </Button>
                 </Form.Item>
               </Col>
               <Col>
                 <Form.Item>
                   <Link to="/order/list">
-                    <Button type="primary" htmlType="submit">
+                    <Button type="primary">
                       My Previous Orders
                     </Button>
                   </Link>
