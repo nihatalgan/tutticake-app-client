@@ -7,14 +7,10 @@ import orderServices from "../../services/order.service";
 import CakeCard from "../../components/CakeCard";
 import { AuthContext } from "../../context/auth.context";
 import { Row, Col, Image, Typography, Card, Divider, Button } from "antd";
-import { ArrowLeftOutlined } from "@ant-design/icons";
-import axios from "axios";
-
-const API_URL = "http://localhost:3000";
 
 function OrderDetailsPage(props) {
   const { user } = useContext(AuthContext);
-  const { isLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn, setCartItemCount } = useContext(AuthContext);
   const [orderList, setOrder] = useState([]);
   const [totalCost, setTotalCost] = useState([]);
   //const { cakeId } = useParams();
@@ -47,6 +43,7 @@ function OrderDetailsPage(props) {
     orderServices
       .closeOrder(orderId, totalCost)
       .then((response) => {
+        setCartItemCount(0)
         console.log(response);
       })
       .catch((error) => console.log(error));

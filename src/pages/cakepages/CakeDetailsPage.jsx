@@ -1,21 +1,20 @@
 import { useState, useEffect, useContext } from "react";
 
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 
 import cakeServices from "../../services/cakes.service";
 import orderServices from "../../services/order.service";
 import { AuthContext } from "../../context/auth.context";
-import { Row, Col, Image, Typography, Card, Divider, Button } from "antd";
-import { ArrowLeftOutlined } from "@ant-design/icons";
-import axios from "axios";
-
-const API_URL = "http://localhost:3000";
+import { Row, Col, Image, Typography, Card, Divider, Button, notification } from "antd";
+import { ArrowLeftOutlined, EditOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 
 function CakeDetailsPage(props) {
-  const { user } = useContext(AuthContext);
+  const { user, setCartItemCount } = useContext(AuthContext);
 
   const [cake, setCake] = useState({});
   const { cakeId } = useParams();
+  const navigate = useNavigate();
+  const [notify, notifyHolder] = notification.useNotification();
 
   const getCake = () => {
     cakeServices
@@ -42,8 +41,24 @@ function CakeDetailsPage(props) {
     //     console.log("asd");
     //     console.log(error);
     //   });
-    orderServices.addCakeToCart(cakeId);
-    console.log("details->service done");
+    orderServices.addCakeToCart(cakeId)
+      .then(() => {
+        notify["success"]({
+          message: "Cart Updated!",
+          description:
+            "Cake has been added to cart successfully.",
+          duration: 2,
+        });
+        orderServices.getOrderDetails()
+        .then((response) => {
+          const count = response.data.cakes.length
+          setCartItemCount(count);
+          navigate('/cakes')
+        })
+      })
+      .catch(() => {
+
+      });
   };
 
   useEffect(() => {
@@ -92,16 +107,14 @@ function CakeDetailsPage(props) {
           <Col>
             {cake && cake.vendor && user && cake.vendor._id === user._id && (
               <Link to={`/cakes/edit/${cakeId}`}>
-                <Button type="primary">Edit Cake</Button>
+                <Button icon={<EditOutlined />}>Edit Cake</Button>
               </Link>
             )}
           </Col>
           <Col>
-            <Link to={"/cakes"}>
-              <Button type="primary" onClick={addCakeToCart}>
-                Add to Card
-              </Button>
-            </Link>
+            <Button type="primary" onClick={addCakeToCart} icon={<ShoppingCartOutlined />}>
+              Add to Cart
+            </Button>
           </Col>
         </Row>
       </Col>
@@ -129,6 +142,7 @@ function CakeDetailsPage(props) {
           </Typography.Title>
         </Card>
       </Col>
+      {notifyHolder}
     </Row>
   );
 }

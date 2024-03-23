@@ -22,8 +22,6 @@ class OrderService {
   }
 
   addCakeToCart = (cakeId) => {
-    console.log("service->addCake", cakeId);
-
     return this.api.post(`/order/addcake/${cakeId}`);
   };
 

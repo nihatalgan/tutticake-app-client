@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import authService from "../services/auth.service";
+import orderService from "../services/order.service";
 
 const AuthContext = React.createContext();
 
@@ -8,6 +9,7 @@ function AuthProviderWrapper(props) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(null);
+  const [cartItemCount, setCartItemCount] = useState(0);
   
   const storeToken = (token) => {      
     localStorage.setItem('authToken', token);
@@ -25,12 +27,23 @@ function AuthProviderWrapper(props) {
       .then((response) => {
         // If the server verifies that the JWT token is valid  
         const user = response.data;
+        orderService.getOrderDetails()
+          .then((resp) => {
+            if (resp.data && resp.data.cakes) {
+              const count = resp.data.cakes.length
+              setCartItemCount(count);
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          })
        // Update state variables        
         setIsLoggedIn(true);
         setIsLoading(false);
         setUser(user);        
       })
       .catch((error) => {
+        console.log(error);
         // If the server sends an error response (invalid token) 
         // Update state variables         
         setIsLoggedIn(false);
@@ -93,7 +106,9 @@ function AuthProviderWrapper(props) {
         getUserDetails,
         storeToken, 
         authenticateUser,
-        logOutUser   
+        logOutUser,
+        cartItemCount,
+        setCartItemCount,   
       }}
     >
       {props.children}

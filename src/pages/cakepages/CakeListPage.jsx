@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 // import AddProject from "../components/AddProject";
 import CakeCard from "../../components/CakeCard";
 import { AuthContext } from "../../context/auth.context";
-import { Col, Row, Spin } from "antd";
+import { Button, Col, Row, Spin, Typography } from "antd";
 
 const API_URL = "http://localhost:3000";
 
@@ -42,10 +42,10 @@ function CakeListPage() {
       <div className="cake-listing-topbar">
         {isLoggedIn ? (
           <Link to="/cakes/create">
-            <button>Create a cake</button>
+            <Button type="primary" size='large'>Create a cake</Button>
           </Link>
         ) : (
-          <p>Please signin to sell or buy cakes.</p>
+          <Typography.Title level={3} style={{ margin: 0 }} type="secondary">Please signin to sell or buy cakes.</Typography.Title>
         )}
       </div>
       <Row gutter={[16, 16]}>

@@ -1,15 +1,16 @@
 import { useContext } from "react";
-import { Button, Layout } from "antd";
+import { Badge, Button, Layout } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 
 import { AuthContext } from "../context/auth.context";
 
 import Logo from "../assets/tutti-cake-logo.png";
+import { ShoppingCartOutlined } from "@ant-design/icons";
 
 function Navbar() {
   const { Header } = Layout;
   const navigate = useNavigate();
-  const { isLoggedIn, logOutUser } = useContext(AuthContext);
+  const { isLoggedIn, logOutUser, cartItemCount } = useContext(AuthContext);
 
   const handleLogout = () => {
     logOutUser();
@@ -40,14 +41,19 @@ function Navbar() {
 
           {isLoggedIn ? (
             <>
-              <li>
+              <li style={{ marginRight: 16 }}>
                 <Link to={"/order/cart"}>
-                  <Button>My Cart</Button>
+                  <Badge count={cartItemCount} showZero>
+                    <Button
+                      shape="circle"
+                      icon={<ShoppingCartOutlined />}
+                    />
+                  </Badge>
                 </Link>
               </li>
               <li>
                 <Link to="/my-account">
-                  <Button>My Account</Button>
+                  <Button >My Account</Button>
                 </Link>
               </li>
 
