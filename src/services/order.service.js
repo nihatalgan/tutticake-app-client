@@ -32,9 +32,22 @@ class OrderService {
     return this.api.get(`/order/cart`);
   };
 
-  closeOrder = (orderId) => {
-    return this.api.put(`/order/${orderId}/close`);
+  closeOrder = (orderId, totalCost) => {
+    return this.api.put(`/order/${orderId}/close`, { totalCost });
   };
+
+  // editCakeDetails = (
+  //   cakeId,
+  //   { name, description, price, preperationTime, imageUrl }
+  // ) => {
+  //   return this.api.put(`/cakes/${cakeId}`, {
+  //     name,
+  //     description,
+  //     price,
+  //     preperationTime,
+  //     imageUrl,
+  //   });
+  // };
 
   getPreviousOrders = () => {
     console.log("service->get orders ");

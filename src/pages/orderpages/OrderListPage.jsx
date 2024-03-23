@@ -29,20 +29,6 @@ function OrderListPage() {
     getPreviousOrders();
   }, []);
 
-  //   const getAllCakes = () => {
-  //     axios
-  //       .get(`${API_URL}/cakes`)
-  //       .then((response) => {
-  //         setCakes(response.data);
-  //         setLoading(false);
-  //       })
-  //       .catch((error) => console.log(error));
-  //   };
-
-  //   useEffect(() => {
-  //     getAllCakes();
-  //   }, []);
-
   if (loading) {
     return (
       <Row justify="center" align="middle" style={{ height: "100%" }}>

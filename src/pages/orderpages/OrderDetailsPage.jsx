@@ -45,7 +45,7 @@ function OrderDetailsPage(props) {
 
   const confirmOrder = () => {
     orderServices
-      .closeOrder(orderId)
+      .closeOrder(orderId, totalCost)
       .then((response) => {
         console.log(response);
       })

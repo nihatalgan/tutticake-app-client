@@ -1,13 +1,14 @@
 import { Link } from "react-router-dom";
 import { Card, Typography } from "antd";
 
-function OrderCard({ orderDate, isPaid, _id }) {
+function OrderCard({ updatedAt, totalPrice, _id }) {
   return (
-    <Link to={`/cakes`}>
+    <Link to={`/order/${_id}`}>
       <Card bordered={false}>
-        <Typography.Title level={3}>{orderDate}</Typography.Title>
-        <Typography.Title level={5}>Price: {isPaid} €</Typography.Title>
-        <Typography.Title level={5}>Price: helloo €</Typography.Title>
+        <Typography.Title level={5}>Order Date: {updatedAt}</Typography.Title>
+        <Typography.Title level={5}>
+          Total Amount: {totalPrice}
+        </Typography.Title>
       </Card>
     </Link>
   );
