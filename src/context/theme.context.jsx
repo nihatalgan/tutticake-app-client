@@ -1,12 +1,9 @@
-import { createContext, useState } from "react"; // <== UPDATE
-
+import { createContext, useState } from "react"; 
 const ThemeContext = createContext();
-
 function ThemeProviderWrapper(props) {
-  const [theme, setTheme] = useState("light"); // <== ADD
+  const [theme, setTheme] = useState("light"); 
 
-  const toggleTheme = () => {
-    // <== ADD
+  const toggleTheme = () => {    
     if (theme === "light") {
       setTheme("dark");
     } else {

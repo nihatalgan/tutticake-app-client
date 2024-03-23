@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Button, Layout } from "antd";
 import { Link, useNavigate } from "react-router-dom";
-
+import { ThemeContext } from "./../context/theme.context";
 import { AuthContext } from "../context/auth.context";
 
 import Logo from "../assets/tutti-cake-logo.png";
