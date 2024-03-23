@@ -13,6 +13,7 @@ import CakeDetailsPage from "./pages/cakepages/CakeDetailsPage";
 import AddCake from "./pages/cakepages/AddCake";
 import EditCakePage from "./pages/cakepages/EditCakePage";
 
+import CartDetailsPage from "./pages/orderpages/CartDetailsPage";
 import OrderDetailsPage from "./pages/orderpages/OrderDetailsPage";
 import OrderSuccesssPage from "./pages/orderpages/OrderSuccesssPage";
 import OrderListPage from "./pages/orderpages/OrderListPage";
@@ -45,9 +46,10 @@ function App() {
           <Route path="/cakes/:cakeId" element={<CakeDetailsPage />} />
           <Route path="/cakes/edit/:cakeId" element={<EditCakePage />} />
 
-          <Route path="/order/cart" element={<OrderDetailsPage />} />
+          <Route path="/order/cart" element={<CartDetailsPage />} />
           <Route path="/order/success" element={<OrderSuccesssPage />} />
           <Route path="/order/list" element={<OrderListPage />} />
+          <Route path="/order/:orderId" element={<OrderDetailsPage />} />
 
           <Route path="*" element={<h3>404 - Not Found</h3>} />
         </Routes>

@@ -1,42 +1,34 @@
 import { useState, useEffect, useContext } from "react";
-
 import { Link, useParams } from "react-router-dom";
-
-//import cakeServices from "../services/cakes.service";
+import cakeServices from "../../services/cakes.service";
 import orderServices from "../../services/order.service";
-import CakeCard from "../../components/CakeCard";
 import { AuthContext } from "../../context/auth.context";
-import { Row, Col, Image, Typography, Card, Divider, Button } from "antd";
+import { Row, Col, Typography, Card, Divider, Button } from "antd";
 
-function OrderDetailsPage(props) {
-  const { user } = useContext(AuthContext);
-  const { isLoggedIn, setCartItemCount } = useContext(AuthContext);
-  const [orderList, setOrder] = useState([]);
-  const [totalCost, setTotalCost] = useState([]);
-  //const { cakeId } = useParams();
-  const [orderId, setOrderId] = useState([]);
+function OrderDetailsPage() {
+  const { setCartItemCount } = useContext(AuthContext);
+  const [order, setOrder] = useState({});
+  const [cakeList, setCakeList] = useState([]);
+  const { orderId } = useParams();
 
   let list = new Array();
-  const getOrder = () => {
+  const getOrderDetails = () => {
     orderServices
-      .getOrderDetails()
+      .getOrderDetails(orderId)
       .then((response) => {
-        const orderDetails = response.data;
-        let totalCost = 0;
-        for (let i = 0; i < orderDetails.cakes.length; i++) {
-          console.log(orderDetails._id);
-          list.push(orderDetails.cakes[i]);
-          totalCost = totalCost + orderDetails.cakes[i].price;
+        const oneOrder = response.data;
+        for (let i = 0; i < oneOrder.cakes.length; i++) {
+          // console.log(cartDetails._id);
+          list.push(oneOrder.cakes[i]);
         }
-        setOrder(list);
-        setOrderId(orderDetails._id);
-        setTotalCost(totalCost);
+        setCakeList(list);
+        setOrder(oneOrder);
       })
       .catch((error) => console.log(error));
   };
 
   useEffect(() => {
-    getOrder();
+    getOrderDetails();
   }, []);
 
   const confirmOrder = () => {
@@ -50,23 +42,30 @@ function OrderDetailsPage(props) {
   };
 
   return (
-    <div>
-      <Row gutter={[16, 16]}>
-        {orderList.map((cake, index) => (
-          <Col span={6} key={index}>
-            <CakeCard {...cake} />
-          </Col>
-        ))}
-      </Row>
-      <Row>Total Cost: {totalCost} €</Row>
-      <Col>
-        <Link to={"/order/success"}>
-          <Button type="primary" onClick={confirmOrder}>
-            Confirm and Pay
-          </Button>
-        </Link>
+    <Row gutter={[24, 0]}>
+      <Col span={16}>
+        <Typography.Title
+          level={1}
+          style={{
+            margin: 0,
+          }}
+        >
+          {order._id}
+        </Typography.Title>
+
+        <Divider />
+
+        <Typography.Text> {order.totalPrice} </Typography.Text>
+        <Row gutter={[16, 16]}>
+          {cakeList.map((cake, index) => (
+            <Col span={6} key={index}>
+              <p>{cake.name}</p>
+            </Col>
+          ))}
+        </Row>
+        <Divider />
       </Col>
-    </div>
+    </Row>
   );
 }
 
