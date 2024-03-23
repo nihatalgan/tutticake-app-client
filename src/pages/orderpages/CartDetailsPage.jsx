@@ -12,38 +12,37 @@ import axios from "axios";
 
 const API_URL = "http://localhost:3000";
 
-function OrderDetailsPage(props) {
+function CartDetailsPage(props) {
   const { user } = useContext(AuthContext);
   const { isLoggedIn } = useContext(AuthContext);
   const [orderList, setOrder] = useState([]);
   const [totalCost, setTotalCost] = useState([]);
-  //const { cakeId } = useParams();
   const [orderId, setOrderId] = useState([]);
 
   let list = new Array();
-  const getOrder = () => {
+  const getCart = () => {
     orderServices
-      .getOrderDetails()
+      .getCartDetails()
       .then((response) => {
-        const orderDetails = response.data;
+        const cartDetails = response.data;
         let totalCost = 0;
-        for (let i = 0; i < orderDetails.cakes.length; i++) {
-          console.log(orderDetails._id);
-          list.push(orderDetails.cakes[i]);
-          totalCost = totalCost + orderDetails.cakes[i].price;
+        for (let i = 0; i < cartDetails.cakes.length; i++) {
+          // console.log(cartDetails._id);
+          list.push(cartDetails.cakes[i]);
+          totalCost = totalCost + cartDetails.cakes[i].price;
         }
         setOrder(list);
-        setOrderId(orderDetails._id);
+        setOrderId(cartDetails._id);
         setTotalCost(totalCost);
       })
       .catch((error) => console.log(error));
   };
 
   useEffect(() => {
-    getOrder();
+    getCart();
   }, []);
 
-  const confirmOrder = () => {
+  const confirmCart = () => {
     orderServices
       .closeOrder(orderId, totalCost)
       .then((response) => {
@@ -64,7 +63,7 @@ function OrderDetailsPage(props) {
       <Row>Total Cost: {totalCost} €</Row>
       <Col>
         <Link to={"/order/success"}>
-          <Button type="primary" onClick={confirmOrder}>
+          <Button type="primary" onClick={confirmCart}>
             Confirm and Pay
           </Button>
         </Link>
@@ -73,4 +72,4 @@ function OrderDetailsPage(props) {
   );
 }
 
-export default OrderDetailsPage;
+export default CartDetailsPage;

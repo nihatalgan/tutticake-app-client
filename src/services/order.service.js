@@ -28,7 +28,7 @@ class OrderService {
   };
 
   //list cart
-  getOrderDetails = () => {
+  getCartDetails = () => {
     return this.api.get(`/order/cart`);
   };
 
