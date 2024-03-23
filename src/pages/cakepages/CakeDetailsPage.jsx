@@ -14,7 +14,6 @@ function CakeDetailsPage(props) {
   const [cake, setCake] = useState({});
   const { cakeId } = useParams();
   const navigate = useNavigate();
-  const [notify, notifyHolder] = notification.useNotification();
 
   const getCake = () => {
     cakeServices
@@ -27,38 +26,17 @@ function CakeDetailsPage(props) {
   };
 
   const addCakeToCart = () => {
-    // const storedToken = localStorage.getItem("authToken");
-    // console.log(storedToken);
 
-    // axios
-    //   .post(`${API_URL}/order/addcake/${cakeId}`, {
-    //     headers: { Authorization: `Bearer ${storedToken}` },
-    //   })
-    //   .then((response) => {
-    //     console.log(response);
-    //   })
-    //   .catch((error) => {
-    //     console.log("asd");
-    //     console.log(error);
-    //   });
     orderServices.addCakeToCart(cakeId)
-      .then(() => {
-        notify["success"]({
-          message: "Cart Updated!",
-          description:
-            "Cake has been added to cart successfully.",
-          duration: 2,
-        });
-        orderServices.getOrderDetails()
+      .then((addResponse) => {
+        orderServices.getOrderDetails(addResponse.data._id)
         .then((response) => {
           const count = response.data.cakes.length
           setCartItemCount(count);
           navigate('/cakes')
         })
       })
-      .catch(() => {
-
-      });
+      .catch(console.error);
   };
 
   useEffect(() => {
@@ -142,7 +120,6 @@ function CakeDetailsPage(props) {
           </Typography.Title>
         </Card>
       </Col>
-      {notifyHolder}
     </Row>
   );
 }
