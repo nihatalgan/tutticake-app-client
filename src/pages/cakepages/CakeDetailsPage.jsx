@@ -1,21 +1,19 @@
 import { useState, useEffect, useContext } from "react";
 
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 
 import cakeServices from "../../services/cakes.service";
 import orderServices from "../../services/order.service";
 import { AuthContext } from "../../context/auth.context";
-import { Row, Col, Image, Typography, Card, Divider, Button } from "antd";
-import { ArrowLeftOutlined } from "@ant-design/icons";
-import axios from "axios";
-
-const API_URL = "http://localhost:3000";
+import { Row, Col, Image, Typography, Card, Divider, Button, notification } from "antd";
+import { ArrowLeftOutlined, EditOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 
 function CakeDetailsPage(props) {
-  const { user } = useContext(AuthContext);
+  const { user, setCartItemCount } = useContext(AuthContext);
 
   const [cake, setCake] = useState({});
   const { cakeId } = useParams();
+  const navigate = useNavigate();
 
   const getCake = () => {
     cakeServices
@@ -28,22 +26,17 @@ function CakeDetailsPage(props) {
   };
 
   const addCakeToCart = () => {
-    // const storedToken = localStorage.getItem("authToken");
-    // console.log(storedToken);
 
-    // axios
-    //   .post(`${API_URL}/order/addcake/${cakeId}`, {
-    //     headers: { Authorization: `Bearer ${storedToken}` },
-    //   })
-    //   .then((response) => {
-    //     console.log(response);
-    //   })
-    //   .catch((error) => {
-    //     console.log("asd");
-    //     console.log(error);
-    //   });
-    orderServices.addCakeToCart(cakeId);
-    console.log("details->service done");
+    orderServices.addCakeToCart(cakeId)
+      .then((addResponse) => {
+        orderServices.getCartDetails()
+        .then((response) => {
+          const count = response.data.cakes.length
+          setCartItemCount(count);
+          navigate('/cakes')
+        })
+      })
+      .catch((error) => console.log(error));
   };
 
   useEffect(() => {
@@ -90,18 +83,17 @@ function CakeDetailsPage(props) {
             </Link>
           </Col>
           <Col>
-            {cake && cake.vendor && user && cake.vendor._id === user._id && (
-              <Link to={`/cakes/edit/${cakeId}`}>
-                <Button type="primary">Edit Cake</Button>
-              </Link>
-            )}
-          </Col>
-          <Col>
-            <Link to={"/cakes"}>
-              <Button type="primary" onClick={addCakeToCart}>
-                Add to Card
-              </Button>
-            </Link>
+            {
+              cake && cake.vendor && user && cake.vendor._id === user._id ? (
+                <Link to={`/cakes/edit/${cakeId}`}>
+                  <Button type="primary" icon={<EditOutlined />}>Edit Cake</Button>
+                </Link>
+              ) : (
+                <Button type="primary" onClick={addCakeToCart} icon={<ShoppingCartOutlined />}>
+                  Add to Cart
+                </Button>
+              )
+            }
           </Col>
         </Row>
       </Col>
