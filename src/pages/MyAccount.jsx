@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   Avatar,
   Button,
@@ -18,6 +18,8 @@ import { UploadOutlined, UserOutlined } from "@ant-design/icons";
 
 import usersService from "../services/users.service";
 
+import { AuthContext } from "../context/auth.context";
+
 import { Link } from "react-router-dom";
 
 const normFile = (e) => {
@@ -32,6 +34,7 @@ function MyAccountPage() {
   const [formInitialValues, setFormInitialValues] = useState({});
   const [errorMessage, setErrorMessage] = useState(undefined);
   const [notify, notifyHolder] = notification.useNotification();
+  const { setUser } = useContext(AuthContext);
 
   useEffect(() => {
     usersService
@@ -59,6 +62,7 @@ function MyAccountPage() {
           .getUserDetails()
           .then((response) => {
             setFormInitialValues(response.data);
+            setUser(response.data);
             setLoading(false);
             notify["success"]({
               message: "Account Details Updated!",

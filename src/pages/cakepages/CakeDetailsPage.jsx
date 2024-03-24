@@ -29,14 +29,14 @@ function CakeDetailsPage(props) {
 
     orderServices.addCakeToCart(cakeId)
       .then((addResponse) => {
-        orderServices.getOrderDetails(addResponse.data._id)
+        orderServices.getCartDetails()
         .then((response) => {
           const count = response.data.cakes.length
           setCartItemCount(count);
           navigate('/cakes')
         })
       })
-      .catch(console.error);
+      .catch((error) => console.log(error));
   };
 
   useEffect(() => {
@@ -83,16 +83,17 @@ function CakeDetailsPage(props) {
             </Link>
           </Col>
           <Col>
-            {cake && cake.vendor && user && cake.vendor._id === user._id && (
-              <Link to={`/cakes/edit/${cakeId}`}>
-                <Button icon={<EditOutlined />}>Edit Cake</Button>
-              </Link>
-            )}
-          </Col>
-          <Col>
-            <Button type="primary" onClick={addCakeToCart} icon={<ShoppingCartOutlined />}>
-              Add to Cart
-            </Button>
+            {
+              cake && cake.vendor && user && cake.vendor._id === user._id ? (
+                <Link to={`/cakes/edit/${cakeId}`}>
+                  <Button type="primary" icon={<EditOutlined />}>Edit Cake</Button>
+                </Link>
+              ) : (
+                <Button type="primary" onClick={addCakeToCart} icon={<ShoppingCartOutlined />}>
+                  Add to Cart
+                </Button>
+              )
+            }
           </Col>
         </Row>
       </Col>

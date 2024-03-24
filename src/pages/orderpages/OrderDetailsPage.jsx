@@ -4,15 +4,15 @@ import cakeServices from "../../services/cakes.service";
 import orderServices from "../../services/order.service";
 import { AuthContext } from "../../context/auth.context";
 import { Row, Col, Typography, Card, Divider, Button } from "antd";
+import CakeCard from "../../components/CakeCard";
 
 function OrderDetailsPage() {
-  const { setCartItemCount } = useContext(AuthContext);
   const [order, setOrder] = useState({});
   const [cakeList, setCakeList] = useState([]);
   const { orderId } = useParams();
 
-  let list = new Array();
   const getOrderDetails = () => {
+    let list = new Array();
     orderServices
       .getOrderDetails(orderId)
       .then((response) => {
@@ -31,40 +31,24 @@ function OrderDetailsPage() {
     getOrderDetails();
   }, []);
 
-  const confirmOrder = () => {
-    orderServices
-      .closeOrder(orderId, totalCost)
-      .then((response) => {
-        setCartItemCount(0)
-        console.log(response);
-      })
-      .catch((error) => console.log(error));
-  };
-
   return (
-    <Row gutter={[24, 0]}>
-      <Col span={16}>
+    <Row gutter={[16, 16]}>
+      <Col span={24}>
         <Typography.Title
-          level={1}
-          style={{
-            margin: 0,
-          }}
+          level={3}
         >
-          {order._id}
+          Order ID: #{order._id}
         </Typography.Title>
-
-        <Divider />
-
-        <Typography.Text> {order.totalPrice} </Typography.Text>
-        <Row gutter={[16, 16]}>
-          {cakeList.map((cake, index) => (
-            <Col span={6} key={index}>
-              <p>{cake.name}</p>
-            </Col>
-          ))}
-        </Row>
-        <Divider />
       </Col>
+      <Col span={24}>
+        <Typography.Title level={4}> Total cost: {order.totalPrice} </Typography.Title>
+      </Col>
+            
+      {cakeList.map((cake, index) => (
+        <Col span={6} key={index}>
+          <CakeCard {...cake} />
+        </Col>
+      ))}
     </Row>
   );
 }

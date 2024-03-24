@@ -1,33 +1,27 @@
 import { useState, useEffect, useContext } from "react";
 
-import { Link, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-//import cakeServices from "../services/cakes.service";
 import orderServices from "../../services/order.service";
 import CakeCard from "../../components/CakeCard";
 import { AuthContext } from "../../context/auth.context";
-import { Row, Col, Image, Typography, Card, Divider, Button } from "antd";
-import { ArrowLeftOutlined } from "@ant-design/icons";
-import axios from "axios";
-
-const API_URL = "http://localhost:3000";
+import { Row, Col, Button, Typography, Card, Flex } from "antd";
 
 function CartDetailsPage(props) {
-  const { user } = useContext(AuthContext);
-  const { isLoggedIn } = useContext(AuthContext);
+  const { setCartItemCount } = useContext(AuthContext);
   const [orderList, setOrder] = useState([]);
   const [totalCost, setTotalCost] = useState([]);
   const [orderId, setOrderId] = useState([]);
+  const navigate = useNavigate();
 
-  let list = new Array();
   const getCart = () => {
+    let list = new Array();
     orderServices
       .getCartDetails()
       .then((response) => {
         const cartDetails = response.data;
         let totalCost = 0;
         for (let i = 0; i < cartDetails.cakes.length; i++) {
-          // console.log(cartDetails._id);
           list.push(cartDetails.cakes[i]);
           totalCost = totalCost + cartDetails.cakes[i].price;
         }
@@ -46,7 +40,8 @@ function CartDetailsPage(props) {
     orderServices
       .closeOrder(orderId, totalCost)
       .then((response) => {
-        console.log(response);
+        setCartItemCount(0)
+        navigate('/order/success')
       })
       .catch((error) => console.log(error));
   };
@@ -54,20 +49,37 @@ function CartDetailsPage(props) {
   return (
     <div>
       <Row gutter={[16, 16]}>
+        <Col span={24}>
+          <Card>
+            <Flex align="center" justify="space-between">
+              <div>
+                <Typography.Title level={3} style={{ margin: 0 }}>Your Cart</Typography.Title>
+              </div>
+              <Flex align="center" justify="space-between">
+                <Typography.Text style={{ margin: '0 16px 0 0' }}>
+                  Total Cost: 
+                </Typography.Text>
+                <Typography.Title
+                  level={3}
+                  style={{
+                    margin: '0 32px 0 0'
+                  }}
+                >
+                  {totalCost} €
+                </Typography.Title>
+                <Button type="primary" onClick={confirmCart} disabled={orderList.length < 1}>
+                  Confirm and Pay
+                </Button>
+              </Flex>
+            </Flex>
+          </Card>
+        </Col>
         {orderList.map((cake, index) => (
           <Col span={6} key={index}>
             <CakeCard {...cake} />
           </Col>
         ))}
       </Row>
-      <Row>Total Cost: {totalCost} €</Row>
-      <Col>
-        <Link to={"/order/success"}>
-          <Button type="primary" onClick={confirmCart}>
-            Confirm and Pay
-          </Button>
-        </Link>
-      </Col>
     </div>
   );
 }
