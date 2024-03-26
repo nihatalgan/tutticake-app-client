@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 
 import authService from "../services/auth.service";
+import orderService from "../services/order.service";
+import usersService from "../services/users.service";
 
 const AuthContext = React.createContext();
 
@@ -8,12 +10,15 @@ function AuthProviderWrapper(props) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(null);
+  const [cartItemCount, setCartItemCount] = useState(0);
   
   const storeToken = (token) => {      
     localStorage.setItem('authToken', token);
   }
 
-  const authenticateUser = () => {           
+  const authenticateUser = () => {     
+    setIsLoading(true);
+
     // Get the stored token from the localStorage
     const storedToken = localStorage.getItem('authToken');
     
@@ -25,12 +30,22 @@ function AuthProviderWrapper(props) {
       .then((response) => {
         // If the server verifies that the JWT token is valid  
         const user = response.data;
-       // Update state variables        
+        orderService.getCartDetails()
+          .then((resp) => {
+            if (resp.data && resp.data.cakes) {
+              const count = resp.data.cakes.length
+              setCartItemCount(count);
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+        // Update state variables        
+        getUserDetails();        
         setIsLoggedIn(true);
-        setIsLoading(false);
-        setUser(user);        
       })
       .catch((error) => {
+        console.log(error);
         // If the server sends an error response (invalid token) 
         // Update state variables         
         setIsLoggedIn(false);
@@ -53,8 +68,8 @@ function AuthProviderWrapper(props) {
  
   const getUserDetails = () => {    
     setIsLoading(true);
-    authService
-    .verify()
+    usersService
+    .getUserDetails()
     .then((response) => {
       const user = response.data;
       setIsLoading(false);
@@ -90,10 +105,13 @@ function AuthProviderWrapper(props) {
         isLoggedIn,
         isLoading,
         user,
+        setUser,
         getUserDetails,
         storeToken, 
         authenticateUser,
-        logOutUser   
+        logOutUser,
+        cartItemCount,
+        setCartItemCount,   
       }}
     >
       {props.children}

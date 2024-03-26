@@ -21,25 +21,53 @@ class CakesService {
     });
   }
 
-  addCake = ({ name, description, price, preperationTime }) => {
+  addCake = ({ name, description, price, preperationTime, imageUrl }) => {
     return this.api.post("/cakes", {
       name,
       description,
       price,
       preperationTime,
+      imageUrl,
     });
+  };
+
+  getAllCakes = () => {
+    return this.api.get(`/cakes`);
   };
 
   getCakeDetails = (cakeId) => {
     return this.api.get(`/cakes/${cakeId}`);
   };
 
-  editCakeDetails = (cakeId, data) => {
-    return this.api.put(`/cakes/${cakeId}`, data);
+  editCakeDetails = (
+    cakeId,
+    { name, description, price, preperationTime, imageUrl }
+  ) => {
+    return this.api.put(`/cakes/${cakeId}`, {
+      name,
+      description,
+      price,
+      preperationTime,
+      imageUrl,
+    });
   };
 
   deleteCake = (cakeId) => {
     return this.api.delete(`/cakes/${cakeId}`);
+  };
+
+  addCakeReview = ({
+    author,
+    cake,
+    comment,
+    rating
+  }) => {
+    return this.api.post(`/cakes/${cake}/comment`, {
+      author,
+      cake,
+      comment,
+      rating
+    });
   };
 }
 
