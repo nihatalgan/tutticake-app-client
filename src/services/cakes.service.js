@@ -55,6 +55,20 @@ class CakesService {
   deleteCake = (cakeId) => {
     return this.api.delete(`/cakes/${cakeId}`);
   };
+
+  addCakeReview = ({
+    author,
+    cake,
+    comment,
+    rating
+  }) => {
+    return this.api.post(`/cakes/${cake}/comment`, {
+      author,
+      cake,
+      comment,
+      rating
+    });
+  };
 }
 
 // Create one instance object

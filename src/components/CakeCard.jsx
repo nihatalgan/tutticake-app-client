@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Card, Typography } from 'antd';
 
 
-function CakeCard({ name, description, imageUrl, price, _id }) {
+function CakeCard({ name, imageUrl, price, _id }) {
   return (
     <Link to={`/cakes/${_id}`}>
       <Card bordered={false}>
