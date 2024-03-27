@@ -19,11 +19,9 @@ function OrderListPage() {
       .getPreviousOrders()
       .then((response) => {
         setOrders(response.data);
-        console.log(response.data);
         setLoading(false);
       })
       .catch((error) => console.log(error));
-    console.log("get orders->service done");
   };
   useEffect(() => {
     getPreviousOrders();

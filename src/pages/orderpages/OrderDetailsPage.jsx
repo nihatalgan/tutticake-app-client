@@ -18,7 +18,6 @@ function OrderDetailsPage() {
       .then((response) => {
         const oneOrder = response.data;
         for (let i = 0; i < oneOrder.cakes.length; i++) {
-          // console.log(cartDetails._id);
           list.push(oneOrder.cakes[i]);
         }
         setCakeList(list);

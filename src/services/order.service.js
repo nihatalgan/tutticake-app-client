@@ -39,7 +39,6 @@ class OrderService {
   };
 
   getPreviousOrders = () => {
-    console.log("service->get orders ");
     return this.api.get(`/order/list`);
   };
 }

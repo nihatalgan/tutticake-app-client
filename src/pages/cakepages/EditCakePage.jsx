@@ -1,6 +1,6 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Button, Card, Col, Form, Input, Row, Spin, Upload } from "antd";
+import { Button, Card, Col, Form, Input, Row, Spin, Upload, Flex } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 
 import cakeServices from "../../services/cakes.service";
@@ -147,14 +147,14 @@ function EditCakePage() {
             >
               <Input type="number" />
             </Form.Item>
-            <Form.Item>
+            <Flex align="center" gap={16}>
               <Button type="primary" htmlType="submit">
                 Save Changes
               </Button>
-              <Button type="danger" onClick={deleteCake}>
+              <Button type="primary" danger onClick={deleteCake}>
                 Delete Cake
               </Button>
-            </Form.Item>
+            </Flex>
           </Form>
           {errorMessage && (
             <p style={{ color: "red", textAlign: "center" }}>{errorMessage}</p>
