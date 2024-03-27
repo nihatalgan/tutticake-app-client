@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import orderServices from "../../services/order.service";
 import CakeCard from "../../components/CakeCard";
 import { AuthContext } from "../../context/auth.context";
-import { Row, Col, Button, Typography, Card, Flex } from "antd";
+import { Row, Col, Button, Typography, Card, Flex, Grid } from "antd";
 
 function CartDetailsPage(props) {
   const { setCartItemCount } = useContext(AuthContext);
@@ -13,6 +13,7 @@ function CartDetailsPage(props) {
   const [totalCost, setTotalCost] = useState([]);
   const [orderId, setOrderId] = useState([]);
   const navigate = useNavigate();
+  const screens = Grid.useBreakpoint();
 
   const getCart = () => {
     let list = new Array();
@@ -51,7 +52,7 @@ function CartDetailsPage(props) {
       <Row gutter={[16, 16]}>
         <Col span={24}>
           <Card>
-            <Flex align="center" justify="space-between">
+            <Flex vertical={!screens.lg} align={ screens.lg ? "center" : "flex-start"} justify={ screens.lg ? "space-between" : "flex-end"}>
               <div>
                 <Typography.Title level={3} style={{ margin: 0 }}>Your Cart</Typography.Title>
               </div>
@@ -75,7 +76,7 @@ function CartDetailsPage(props) {
           </Card>
         </Col>
         {orderList.map((cake, index) => (
-          <Col span={6} key={index}>
+          <Col xs={24} sm={24} md={12} lg={6} xl={6} xxl={6} key={index}>
             <CakeCard {...cake} />
           </Col>
         ))}

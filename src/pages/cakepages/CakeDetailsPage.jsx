@@ -5,7 +5,7 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import cakeServices from "../../services/cakes.service";
 import orderServices from "../../services/order.service";
 import { AuthContext } from "../../context/auth.context";
-import { Row, Col, Image, Typography, Card, Divider, Button, List, Avatar, Flex, Rate, Form, Input, Spin } from "antd";
+import { Row, Col, Image, Typography, Card, Divider, Button, List, Avatar, Flex, Rate, Form, Input, Spin, Grid } from "antd";
 import { ArrowLeftOutlined, EditOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 
 function CakeDetailsPage(props) {
@@ -17,6 +17,8 @@ function CakeDetailsPage(props) {
   const { cakeId } = useParams();
   const navigate = useNavigate();
   const [form] = Form.useForm();
+  const screens = Grid.useBreakpoint();
+
 
   const getCake = () => {
     setLoading(true);
@@ -79,7 +81,7 @@ function CakeDetailsPage(props) {
       <Col span={16}>
         <Image width={"60%"} src={cake.imageUrl} preview={false} />
         <Typography.Title
-          level={1}
+          level={screens.lg ? 2 : 4}
           style={{
             margin: 0,
           }}
@@ -204,7 +206,7 @@ function CakeDetailsPage(props) {
         <Card>
           <Typography.Text>Price:</Typography.Text>
           <Typography.Title
-            level={3}
+            level={screens.lg ? 3 : 5}
             style={{
               margin: 0,
             }}
@@ -215,7 +217,7 @@ function CakeDetailsPage(props) {
         <Card>
           <Typography.Text>Preperation time:</Typography.Text>
           <Typography.Title
-            level={3}
+            level={screens.lg ? 3 : 5}
             style={{
               margin: 0,
             }}

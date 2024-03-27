@@ -42,7 +42,7 @@ function OrderListPage() {
       <Typography.Title level={5}>Previous orders: </Typography.Title>
       <Row gutter={[16, 16]}>
         {orders.map((order) => (
-          <Col span={6} key={order._id}>
+          <Col xs={24} sm={24} md={12} lg={8} xl={8} xxl={8} key={order._id}>
             <OrderCard {...order} />
           </Col>
         ))}

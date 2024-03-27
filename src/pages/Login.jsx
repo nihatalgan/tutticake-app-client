@@ -27,7 +27,7 @@ function LoginPage() {
   
   return(
     <Row justify="center" align='middle'>
-      <Col>
+      <Col xs={24} sm={24} md={18} lg={16} xl={12} xxl={10}>
         <Card title="Please login to continue">
           <Form
             name="login"

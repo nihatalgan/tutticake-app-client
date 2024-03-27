@@ -50,7 +50,7 @@ function CakeListPage() {
       </div>
       <Row gutter={[16, 16]}>
         {cakes.map((cake) => (
-          <Col span={6} key={cake._id}>
+          <Col xs={24} sm={24} md={12} lg={6} xl={6} xxl={6} key={cake._id}>
             <CakeCard {...cake} />
           </Col>
         ))}

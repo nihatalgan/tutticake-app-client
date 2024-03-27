@@ -104,7 +104,7 @@ function MyAccountPage() {
 
   return (
     <Row justify="center" align="middle">
-      <Col span={8}>
+      <Col xs={24} sm={24} md={18} lg={16} xl={12} xxl={10}>
         <Card title="My Account">
           <Form
             name="account"

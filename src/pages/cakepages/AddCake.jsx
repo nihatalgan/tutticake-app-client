@@ -42,7 +42,7 @@ function AddCake() {
 
   return (
     <Row justify="center" align="middle">
-      <Col span={16}>
+      <Col xs={24} sm={24} md={18} lg={16} xl={12} xxl={10}>
         <Card title="Please add cake details">
           <Form
             name="add-cake"

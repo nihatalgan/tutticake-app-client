@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Avatar, Badge, Button, Layout } from "antd";
+import { Avatar, Badge, Button, Layout, Grid } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 
 import { AuthContext } from "../context/auth.context";
@@ -11,6 +11,8 @@ function Navbar() {
   const { Header } = Layout;
   const navigate = useNavigate();
   const { isLoggedIn, logOutUser, cartItemCount, user } = useContext(AuthContext);
+
+  const screens = Grid.useBreakpoint();
 
   const handleLogout = () => {
     logOutUser();
@@ -24,11 +26,12 @@ function Navbar() {
         alignItems: "center",
         background: "#FFF",
         borderBottom: "1px solid rgba(5, 5, 5, 0.06)",
+        padding: screens.lg ? '' : 0,
       }}
     >
       <nav className="nav-container">
         <Link to="/" className="logo-container">
-          <img src={Logo} alt="TuttiCake Logo" height={48} width={48} />
+          <img src={Logo} alt="TuttiCake Logo" height={screens.lg ? 48 : 24} width={screens.lg ? 48 : 24} />
           TuttiCake
         </Link>
 
@@ -41,7 +44,7 @@ function Navbar() {
 
           {isLoggedIn ? (
             <>
-              <li style={{ marginRight: 16 }}>
+              <li style={{ marginRight: 12 }}>
                 <Link to={"/order/cart"}>
                   <Badge count={cartItemCount} showZero>
                     <Button
